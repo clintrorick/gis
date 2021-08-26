@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.5.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "org.flywaydb.flyway" version "7.14.0"
 }
 
 group = 'org.clintrorick'
@@ -18,14 +19,26 @@ repositories {
 	mavenCentral()
 }
 
+flyway {
+	url = 'jdbc:postgres://localhost:5432'
+	user = 'postgres'
+	password = 'asdf'
+	schemas = ['gis']
+}
+
 dependencies {
+	implementation 'org.postgresql:postgresql:42.2.23'
+	implementation "org.flywaydb:flyway-core:7.14.0"
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.orbisgis:h2gis:1.5.0'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'com.opencsv:opencsv:5.0'
 }
 
 test {

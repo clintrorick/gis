@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.clintrorick.gis.mapper.GeoPointMapper" >
+    <resultMap id="baseResultMap" type="org.clintrorick.gis.domain.GeoPoint" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result property="latitude" column="latitude" jdbcType="VARCHAR" />
+        <result property="longitude" column="longitude" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="citiesResultMap" type="org.clintrorick.gis.domain.CityDistance">
+        <result property="cityName" column="city_name" jdbcType="VARCHAR" />
+        <result property="distance" column="distance" jdbcType="DOUBLE" />
+
+    </resultMap>
+
+    <select id="findAll" resultMap="baseResultMap">
+        SELECT st_x(point) as longitude, st_y(point) as latitude
+        FROM gis.points
+    </select>
+
+    <select id="findGeoPoint" resultMap="baseResultMap">
+        SELECT st_x(point) as longitude, st_y(point) as latitude
+        FROM gis.points
+        WHERE trunc(st_x(point)::numeric,6) = #{longitude} and trunc(st_y(point)::numeric,6) = #{latitude}
+    </select>
+
+    <select id="distanceFromCities" resultMap="citiesResultMap">
+        select city_name, st_distance(st_geogfromtext(#{wktCoords}), city_point::geography) as distance
+        from gis.cities_coords
+    </select>
+
+    <select id="isPointInUnitedStates" resultType="boolean">
+        SELECT true
+        FROM gis.united_states_polygon usp
+        WHERE st_within( st_geomfromtext(#{wktCoordsRep}), usp.polygon) = TRUE
+    </select>
+
+
+
+</mapper>
