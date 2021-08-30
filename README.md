@@ -1,5 +1,5 @@
 To generate the CSV answer to the solution, issue a GET request to localhost:8080/geopoints/calculateFullAnswer.csv
------------
+
 To seed the database, I started with a shapefile provided by the U.S. census.gov website 
 that denotes boundaries of all 50 U.S. states.
 
