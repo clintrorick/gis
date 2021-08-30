@@ -1,4 +1,20 @@
-To generate the CSV answer to the solution, issue a GET request to localhost:8080/geopoints/calculateFullAnswer.csv
+To run the app
+-------------
+
+Run `docker-compose up --build` via terminal at the project's root directory.
+
+This will expose the app at port 8080 with the backing database running. 
+
+Seed data and database schema will be loaded via Flyway.
+
+If you do not have Docker Desktop installed, you can install it here: https://www.docker.com/products/docker-desktop
+
+To generate the solution
+--------------
+Issue a GET request to localhost:8080/geopoints/calculateFullAnswer.csv
+
+How did I seed the necessary GIS data?
+--------------
 
 To seed the database, I started with a shapefile provided by the U.S. census.gov website 
 that denotes boundaries of all 50 U.S. states.
